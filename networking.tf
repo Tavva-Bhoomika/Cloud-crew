@@ -1,3 +1,8 @@
+provider "aws" {
+  region = "ap-south-1"  # Specify your AWS region
+}
+
+# Create a VPC
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   enable_dns_support = true
@@ -7,16 +12,28 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_subnet" "main" {
+# Create subnets in different Availability Zones
+resource "aws_subnet" "main_a" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = "ap-south-1a"  # Use a valid availability zone for your region
+  availability_zone       = "ap-south-1a"  # Availability Zone A
   map_public_ip_on_launch = true
   tags = {
-    Name = "main_subnet"
+    Name = "main_subnet_a"
   }
 }
 
+resource "aws_subnet" "main_b" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = "ap-south-1b"  # Availability Zone B
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "main_subnet_b"
+  }
+}
+
+# Create a Security Group for web servers
 resource "aws_security_group" "web_sg" {
   vpc_id = aws_vpc.main.id
 
@@ -39,6 +56,7 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
+# Create a Security Group for the database
 resource "aws_security_group" "db_sg" {
   vpc_id = aws_vpc.main.id
 
@@ -61,9 +79,10 @@ resource "aws_security_group" "db_sg" {
   }
 }
 
+# Create a DB Subnet Group
 resource "aws_db_subnet_group" "default" {
   name       = "default-db-subnet-group"
-  subnet_ids = [aws_subnet.main.id]
+  subnet_ids = [aws_subnet.main_a.id, aws_subnet.main_b.id]
   description = "Default DB subnet group"
 
   tags = {
@@ -71,4 +90,31 @@ resource "aws_db_subnet_group" "default" {
   }
 }
 
+# Create an RDS instance (example, adjust parameters as needed)
+resource "aws_db_instance" "default" {
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t2.micro"
+  name                 = "mydatabase"
+  username             = "admin"
+  password             = "password"
+  db_subnet_group_name = aws_db_subnet_group.default.name
+  vpc_security_group_ids = [aws_security_group.db_sg.id]
 
+  tags = {
+    Name = "mydatabase"
+  }
+}
+
+# Example of an EC2 instance (adjust as needed)
+resource "aws_instance" "web_server" {
+  ami           = "ami-0888ba30fd446b771"  # Replace with a valid AMI ID
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.main_a.id
+  security_groups = [aws_security_group.web_sg.name]
+  tags = {
+    Name = "web-server"
+  }
+}
