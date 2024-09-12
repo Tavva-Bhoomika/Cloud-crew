@@ -106,13 +106,16 @@ resource "aws_db_instance" "default" {
   }
 }
 
-# Example of an EC2 instance (adjust as needed)
+
+# Example of an EC2 instance
 resource "aws_instance" "web_server" {
   ami           = "ami-0888ba30fd446b771"  # Replace with a valid AMI ID
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.main_a.id
-  security_groups = [aws_security_group.web_sg.name]
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  
   tags = {
     Name = "web-server"
   }
 }
+
