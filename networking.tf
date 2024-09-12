@@ -61,13 +61,14 @@ resource "aws_security_group" "db_sg" {
   }
 }
 
-resource "aws_db_subnet_group" "my_subnet_group" {
-  name       = "my-subnet-group"  # Changed to a valid name
+resource "aws_db_subnet_group" "default" {
+  name       = "default-db-subnet-group"
   subnet_ids = [aws_subnet.main.id]
-  description = "My custom DB subnet group"
+  description = "Default DB subnet group"
 
   tags = {
-    Name = "my_db_subnet_group"
+    Name = "default_db_subnet_group"
   }
 }
+
 
