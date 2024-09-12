@@ -30,7 +30,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "cloudfront_policy" {
-  policy_arn = "arn:aws:iam::aws:policy/CloudFrontReadOnlyAccess "  # Updated policy ARN
+  policy_arn = "arn:aws:iam::aws:policy/CloudFrontReadOnlyAccess"
   role     = aws_iam_role.cloud-crew_role.name
 }
 

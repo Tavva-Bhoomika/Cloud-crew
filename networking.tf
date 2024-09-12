@@ -94,7 +94,7 @@ resource "aws_db_instance" "default" {
   storage_type         = "gp2"
   engine               = "mysql"
   engine_version       = "8.0"
-  instance_class       = "db.t2.micro"
+  instance_class       = "db.t3.micro"
   db_name                 = "mydatabase"
   username             = "admin"
   password             = "password"
