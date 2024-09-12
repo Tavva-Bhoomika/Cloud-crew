@@ -1,4 +1,3 @@
-# backend.tf
 terraform {
   backend "s3" {
     bucket         = "cloud-crew-terraform-state-bucket"
