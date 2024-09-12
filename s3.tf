@@ -1,13 +1,20 @@
 resource "aws_s3_bucket" "website" {
   bucket = "cloud-crew-static-website-bucket"
-  object_ownership = "BucketOwnerEnforced"  # Ensure this is needed for your use case
+  acl    = "public-read"
+
+  website {
+    index_document = "index.html"  # Set the index document
+    error_document = "error.html"  # Optionally set an error document
+  }
 
   tags = {
     Name = "website_bucket"
   }
 }
 
-resource "aws_s3_bucket_acl" "website_acl" {
-  bucket = aws_s3_bucket.website.id
-  acl    = "public-read"  # Only use if necessary and compatible
+resource "aws_s3_bucket_object" "index" {
+  bucket = aws_s3_bucket.website.bucket
+  key    = "index.html"
+  source = "/index.html"  # Path to the local index.html file
+  acl    = "public-read"  # Set ACL for the object
 }
