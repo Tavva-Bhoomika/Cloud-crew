@@ -1,5 +1,5 @@
 resource "aws_instance" "web_server" {
-  ami           = "ami-0c55b159cbfafe1f0"  # Replace with your preferred AMI ID
+  ami           = "ami-0888ba30fd446b771"  # Replace with your preferred AMI ID
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.main.id
   tags = {
