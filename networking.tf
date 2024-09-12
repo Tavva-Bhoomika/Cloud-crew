@@ -1,6 +1,3 @@
-# networking.tf
-
-# Define the VPC
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
   enable_dns_support = true
@@ -10,18 +7,16 @@ resource "aws_vpc" "main" {
   }
 }
 
-# Define the Subnet
 resource "aws_subnet" "main" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = "ap-south-1"  # Adjust to your region's availability zone
+  availability_zone       = "ap-south-1a"  # Use a valid availability zone for your region
   map_public_ip_on_launch = true
   tags = {
     Name = "main_subnet"
   }
 }
 
-# Define Security Group for Web Server
 resource "aws_security_group" "web_sg" {
   vpc_id = aws_vpc.main.id
 
@@ -44,7 +39,6 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
-# Define Security Group for Database
 resource "aws_security_group" "db_sg" {
   vpc_id = aws_vpc.main.id
 
@@ -67,7 +61,6 @@ resource "aws_security_group" "db_sg" {
   }
 }
 
-# Define the DB Subnet Group
 resource "aws_db_subnet_group" "default" {
   name       = "default"
   subnet_ids = [aws_subnet.main.id]
