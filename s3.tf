@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "website" {
 
   website {
     index_document = "index.html"  # Set the index document
-    error_document = "error.html"  # Optionally set an error document
+   # error_document = "error.html"  # Optionally set an error document
   }
 
   tags = {
