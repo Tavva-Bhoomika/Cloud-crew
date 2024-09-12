@@ -30,9 +30,10 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "cloudfront_policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonCloudFrontFullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonCloudFrontReadOnlyAccess"  # Updated policy ARN
   role     = aws_iam_role.cloud-crew_role.name
 }
+
 
 resource "aws_iam_role_policy_attachment" "cloud-crew_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
