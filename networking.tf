@@ -1,6 +1,4 @@
-provider "aws" {
-  region = "ap-south-1"  # Specify your AWS region
-}
+
 
 # Create a VPC
 resource "aws_vpc" "main" {
