@@ -4,7 +4,7 @@ resource "aws_db_instance" "default" {
   engine               = "mysql"
   engine_version       = "8.0.35"
   instance_class       = "db.t3.micro"
-  name                 = "cloud-crew"
+  db_name              = "cloud_crew"  
   username             = "admin"
   password             = "password123"
   parameter_group_name = "default.mysql8.0"
