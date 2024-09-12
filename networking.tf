@@ -13,7 +13,7 @@ resource "aws_vpc" "main" {
 # Create subnets in different Availability Zones
 resource "aws_subnet" "main_a" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = "10.0.3.0/24"
   availability_zone       = "ap-south-1a"  # Availability Zone A
   map_public_ip_on_launch = true
   tags = {
