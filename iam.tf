@@ -39,19 +39,3 @@ resource "aws_iam_role_policy_attachment" "cloud-crew_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
   role     = aws_iam_role.cloud-crew_role.name
 }
-
-resource "aws_s3_bucket_policy" "website_policy" {
-  bucket = aws_s3_bucket.website.id
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Sid    = "PublicReadGetObject",
-        Effect = "Allow",
-        Principal = "*",
-        Action   = "s3:GetObject",
-        Resource = "${aws_s3_bucket.website.arn}/*"
-      }
-    ]
-  })
-}
